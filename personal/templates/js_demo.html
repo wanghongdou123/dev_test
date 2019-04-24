@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>jquery ajax使用</title>
+    <script src="https://cdn.bootcss.com/jquery/1.12.4/jquery.min.js"></script>
+    <script>
+        function jisuan() {
+
+            let a = document.querySelector("#number1").value;
+            let b = document.querySelector("#number2").value;
+            console.log(a)
+            console.log(b)
+            {#前端做验证#}
+            if (a === "") {
+                document.querySelector("#number1").style.border = "1px solid red";
+                {#return;#}
+            } else {
+                document.querySelector("#number1").style.border = "";
+            }
+
+            if (b === "") {
+                document.querySelector("#number2").style.border = "1px solid red";
+                {#return;#}
+            } else {
+                document.querySelector("#number2").style.border = "";
+            }
+
+            {
+
+                {#post请求实现方法#}
+                {#好处：不需要刷新整个页面，异步#}
+                $.post("/js_jisuan/", {num1: a, num2: b},
+                    function (result) {
+                        {#alert("结果:"+result);#}
+                        if (result.status_code !== 10200) {
+                            document.querySelector("#result").value = result.message;
+                        } else {
+                            document.querySelector("#result").value = result.data;
+
+                        }
+
+                    });
+            }
+        }
+
+    </script>
+</head>
+<body>
+数字1：<input type="text" id="number1">
+<br>
+数字2：<input type="text" id="number2">
+<button type="button" id="jisuan" onclick="jisuan()" style="color: blue">计算</button>
+<br>
+结果：<textarea rows="3" cols="20" id="result">
+</textarea>
+</body>
+</html>
